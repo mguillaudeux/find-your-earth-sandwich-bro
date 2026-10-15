@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="La Terre prise en sandwich entre deux tranches de pain">
+  <defs>
+    <radialGradient id="sea" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#8cc0d6"/><stop offset="1" stop-color="#3f7f9e"/></radialGradient>
+  </defs>
+  <ellipse cx="200" cy="372" rx="130" ry="14" fill="#2b2620" opacity=".08"/>
+  <g transform="rotate(-8 200 200)">
+    <rect x="70" y="40" width="260" height="70" rx="30" fill="#c2702c"/>
+    <rect x="84" y="52" width="232" height="46" rx="20" fill="#f3dfb1"/>
+    <circle cx="200" cy="200" r="100" fill="url(#sea)"/>
+    <path d="M150 150c20-20 52-14 60 6s-8 32-26 38-44-6-44-20 4-18 10-24zm80 48c18-8 44 4 46 24s-18 38-34 32-26-18-24-32 6-20 12-24zm-70 44c12 0 20 12 14 20s-20 8-24 0 0-20 10-20z" fill="#9cbf6a"/>
+    <path d="M118 128c-6 4-14 14-10 20" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity=".35" fill="none"/>
+    <rect x="70" y="290" width="260" height="70" rx="30" fill="#c2702c"/>
+    <rect x="84" y="302" width="232" height="46" rx="20" fill="#f3dfb1"/>
+  </g>
+</svg>

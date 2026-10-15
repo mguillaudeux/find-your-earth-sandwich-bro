@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Find your earth sandwich bro</title>
+  <meta name="description" content="Pose une tranche de pain face contre terre : on trouve où ton sandwich bro doit poser la sienne, de l'autre côté de la planète.">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="back" href="https://mguillaudeux.github.io/" data-i18n="back">← Carnet de Morgan</a>
+    <div class="lang" role="group" aria-label="Langue / Language">
+      <button type="button" data-lang="fr" aria-pressed="true">FR</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-text">
+        <p class="kicker" data-i18n="kicker">Une recette en 4 étapes</p>
+        <h1><span data-i18n="title_a">Find your earth</span> <em data-i18n="title_b">sandwich bro</em></h1>
+        <p class="lead" data-i18n="lead"></p>
+        <div class="recipe-meta">
+          <div>
+            <h2 data-i18n="ing_title">Ingrédients</h2>
+            <ul data-i18n-html="ing_html"></ul>
+          </div>
+          <div>
+            <h2 data-i18n="time_title">Temps de préparation</h2>
+            <p data-i18n="time"></p>
+          </div>
+        </div>
+      </div>
+      <figure class="hero-visual">
+        <!-- Illustration provisoire : remplacer img/hero.svg (ou changer src) par le visuel final. -->
+        <img src="img/hero.svg" alt="">
+      </figure>
+    </section>
+
+    <section class="kitchen">
+      <div class="globe-wrap">
+        <canvas id="globe" aria-label="Globe terrestre interactif"></canvas>
+        <p class="globe-status" id="globe-status" data-i18n="globe_loading" aria-live="polite"></p>
+        <p class="globe-hint" data-i18n="globe_hint"></p>
+        <ul class="legend">
+          <li><span class="dot start"></span><span data-i18n="legend_start"></span></li>
+          <li><span class="dot antipode"></span><span data-i18n="legend_antipode"></span></li>
+          <li><span class="dot target"></span><span data-i18n="legend_target"></span></li>
+        </ul>
+      </div>
+
+      <ol class="steps">
+        <li class="step" id="step1">
+          <h3><span class="num">1</span><span data-i18n="s1_title"></span></h3>
+          <p data-i18n="s1_text"></p>
+          <div class="row">
+            <button type="button" class="btn" id="btn-here" data-i18n="s1_here"></button>
+          </div>
+          <p class="small" data-i18n="s1_examples"></p>
+          <div class="chips" id="examples"></div>
+          <details class="coords">
+            <summary data-i18n="s1_coords"></summary>
+            <form id="coords-form" class="row">
+              <label><span data-i18n="s1_lat"></span><input name="lat" type="number" step="any" min="-90" max="90" required></label>
+              <label><span data-i18n="s1_lon"></span><input name="lon" type="number" step="any" min="-180" max="180" required></label>
+              <button type="submit" class="btn ghost" data-i18n="s1_go"></button>
+            </form>
+          </details>
+          <p class="note" id="s1-result" aria-live="polite"></p>
+          <p class="small muted" data-i18n="s1_privacy"></p>
+        </li>
+
+        <li class="step" id="step2" aria-disabled="true">
+          <h3><span class="num">2</span><span data-i18n="s2_title"></span></h3>
+          <p data-i18n="s2_text"></p>
+          <button type="button" class="btn" id="btn-cross" disabled data-i18n="s2_go"></button>
+          <p class="small muted" id="s2-status" aria-live="polite"></p>
+          <div id="s2-result" hidden>
+            <svg class="cut" id="cut" viewBox="0 0 220 220" role="img" aria-label=""></svg>
+            <dl class="facts" id="facts"></dl>
+            <p class="note" id="s2-note"></p>
+          </div>
+        </li>
+
+        <li class="step" id="step3" aria-disabled="true">
+          <h3><span class="num">3</span><span data-i18n="s3_title"></span></h3>
+          <p data-i18n-html="s3_text_html"></p>
+          <p class="note" id="s3-lives"></p>
+          <p class="small" data-i18n="s3_hint"></p>
+          <button type="button" class="btn ghost" id="btn-share" data-i18n="s3_share"></button>
+          <span class="small" id="share-status" aria-live="polite"></span>
+        </li>
+
+        <li class="step" id="step4" aria-disabled="true">
+          <h3><span class="num">4</span><span data-i18n="s4_title"></span></h3>
+          <p data-i18n="s4_text"></p>
+          <button type="button" class="btn" id="btn-done" disabled data-i18n="s4_go"></button>
+        </li>
+      </ol>
+    </section>
+
+    <section class="tadam" id="tadam" hidden tabindex="-1">
+      <svg class="sandwich-anim" viewBox="0 50 300 200" aria-hidden="true">
+        <defs>
+          <radialGradient id="sea" cx="40%" cy="35%" r="70%">
+            <stop offset="0" stop-color="#7fb7d0"/><stop offset="1" stop-color="#3f7f9e"/>
+          </radialGradient>
+        </defs>
+        <g class="earth">
+          <circle cx="150" cy="150" r="72" fill="url(#sea)"/>
+          <path d="M112 118c14-14 36-10 42 4s-6 22-18 26-30-4-30-14 2-12 6-16zm56 34c12-6 30 2 32 16s-12 26-24 22-18-12-16-22 4-14 8-16zm-48 30c8 0 14 8 10 14s-14 6-16 0 0-14 6-14z" fill="#9cbf6a"/>
+        </g>
+        <g class="slice top">
+          <rect x="60" y="20" width="180" height="46" rx="20" fill="#d9a35c"/>
+          <rect x="70" y="28" width="160" height="32" rx="14" fill="#f3d9a4"/>
+        </g>
+        <g class="slice bottom">
+          <rect x="60" y="234" width="180" height="46" rx="20" fill="#d9a35c"/>
+          <rect x="70" y="240" width="160" height="32" rx="14" fill="#f3d9a4"/>
+        </g>
+      </svg>
+      <h2 data-i18n="tadam"></h2>
+      <p class="tadam-sub" data-i18n="tadam_sub"></p>
+      <p class="verdict" id="verdict"></p>
+      <button type="button" class="btn" id="btn-again" data-i18n="again"></button>
+    </section>
+
+    <section class="how">
+      <h2 data-i18n="how_title"></h2>
+      <div data-i18n-html="how_html"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p data-i18n-html="credits_html"></p>
+    <p><a href="https://github.com/mguillaudeux/find-your-earth-sandwich-bro" data-i18n="code">Code source</a></p>
+  </footer>
+
+  <script src="vendor/d3.min.js"></script>
+  <script src="vendor/topojson-client.min.js"></script>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
